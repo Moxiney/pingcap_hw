@@ -29,4 +29,4 @@ include_directories("${PROJECT_SOURCE_DIR}/src")
 
 message("${PROJECT_BINARY_DIR}, ${PROJECT_SOURCE_DIR}")
 
-add_executable(hash_index src/main/main.cpp)
+add_executable(hash_index src/main/main.cpp src/util/file.cpp)
