@@ -6,6 +6,8 @@
 #include "common/def.h"
 #include "filter/filter.h"
 #include "util/file.h"
+#include "util/hash.h"
+
 
 using namespace std;
 
@@ -19,6 +21,14 @@ int main() {
   void* addr = util::mmap_file(file_path);
 
   assert(addr != nullptr);
+
+  util::Hasher hasher;
+
+  common::RawData data;
+
+
+  cout << data.size << endl;
+  cout << hasher.hash((Byte*)data.data, data.size) << endl;
 
   return 0;
 

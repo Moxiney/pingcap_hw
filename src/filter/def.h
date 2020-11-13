@@ -1,4 +1,0 @@
-namespace filter
-{
-
-} // namespace filter

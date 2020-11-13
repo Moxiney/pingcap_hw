@@ -4,9 +4,18 @@ namespace filter {
     class Filter {
     public:
         Filter() = default;
-        ~Filter() = default;
+        virtual ~Filter() = default;
 
-        bool is_contain(common::RawData& elem) {
+        virtual bool is_contain(common::RawData& key) {
+            return true;
+        }
+    };
+
+    class BloomFilter : public Filter {
+        BloomFilter() = default;
+        ~BloomFilter() = default;
+
+        bool is_contain(common::RawData& key) {
             return true;
         }
     };
