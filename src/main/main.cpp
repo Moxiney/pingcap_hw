@@ -2,15 +2,18 @@
 #include <vector>
 
 #include "common/def.h"
+#include "filter/filter.h"
 
 using namespace std;
 
-int main() {
+int main()
+{
   cout << "Hello World" << endl;
 
   vector<int> a = {1, 2, 3};
 
-  for (auto i : a) {
+  for (auto i : a)
+  {
     cout << i << endl;
   }
 
@@ -19,4 +22,8 @@ int main() {
   elem.size = 2;
 
   cout << elem.size << endl;
+
+  filter::Filter f;
+
+  cout << f.is_contain(elem) << endl;
 }
