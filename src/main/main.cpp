@@ -1,6 +1,9 @@
 #include <iostream>
 #include <vector>
 #include <assert.h>
+#include <string.h>
+#include <string>
+
 
 #include "common/def.h"
 #include "filter/filter.h"
@@ -20,12 +23,24 @@ int main() {
 
   assert(addr != nullptr);
 
-  util::Hasher hasher;
+  string test_strs[] = { "Hello", " ", "World", "!" };
 
-  common::RawData data;
+  common::RawData* ptr = (common::RawData*)addr;
 
-  cout << data.size << endl;
-  cout << hasher.hash((Byte*)data.data, data.size) << endl;
+  for (int i = 0; i < 4; i++) {
+
+    cout << test_strs[i] << " " << test_strs[i].size() << endl;
+
+    ptr->store(test_strs[i].c_str(), test_strs[i].size());
+
+    auto next = ptr->next();
+
+    cout << "gap: " << next - ptr << endl;
+    ptr = next;
+  }
+
+  cout << (u64)ptr - (u64)addr << endl;
+
 
   return 0;
 }

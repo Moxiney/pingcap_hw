@@ -27,12 +27,13 @@ namespace common {
       return memcmp(this, &that, sizeof(size) + size) == 0;
     }
 
-    Byte* get_data() {
-      return data;
+    void store(const Byte* _data, i32 _size) {
+      size = _size;
+      memcpy(data, _data, size);
     }
 
     RawData* next() {
-      return reinterpret_cast<RawData*>(this + sizeof(i32) + size);
+      return reinterpret_cast<RawData*>((Byte*)this + sizeof(i32) + size);
     }
   };
 } // namespace common
