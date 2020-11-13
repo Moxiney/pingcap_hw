@@ -1,6 +1,8 @@
 #include <iostream>
 #include <vector>
 
+#include "common/def.h"
+
 using namespace std;
 
 int main() {
@@ -11,4 +13,10 @@ int main() {
   for (auto i : a) {
     cout << i << endl;
   }
+
+  common::Elem elem;
+
+  elem.size = 2;
+
+  cout << elem.size << endl;
 }

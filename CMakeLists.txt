@@ -25,6 +25,8 @@ else()
 message(STATUS "The compiler ${CMAKE_CXX_COMPILER} has no C++11 support. Please use a different C++ compiler.")
 endif()
 
-include_directories("${PROJECT_BINARY_DIR}/src")
+include_directories("${PROJECT_SOURCE_DIR}/src")
+
+message("${PROJECT_BINARY_DIR}, ${PROJECT_SOURCE_DIR}")
 
 add_executable(hash_index src/main/main.cpp)
