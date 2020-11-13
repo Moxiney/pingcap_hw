@@ -4,7 +4,7 @@
 #include <string>
 
 namespace index {
-    template<class Hasher, class Filter>
+    template <class Hasher, class Filter>
     class Index {
     public:
         Index() = default;
@@ -20,5 +20,7 @@ namespace index {
         std::map<std::string, Filter> index_file_filters;
 
         std::map<std::string, void*> index_file_addrs;
+
+        void* file_addr;
     };
 } // namespace index

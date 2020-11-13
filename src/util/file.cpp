@@ -10,20 +10,19 @@
 namespace util {
     bool create_file(const char* file_path, u64 file_size) {
         std::ofstream fout(file_path);
-        if (!fout) {
+        if (!fout)     {
             return false;
         }
         fout.close();
 
         int result = truncate(file_path, file_size);
-        if (result != 0) {
+        if (result != 0)     {
             return false;
         }
 
         std::cout << "created file \"" << file_path << "\"" << std::endl;
         return true;
     }
-
 
     void* mmap_file(const char* file_path) {
         int fd = open(file_path, O_RDWR);

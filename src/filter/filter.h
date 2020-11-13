@@ -6,7 +6,7 @@ namespace filter {
         Filter() = default;
         virtual ~Filter() = default;
 
-        virtual bool is_contain(common::RawData& key) {
+        virtual bool is_contain(common::RawData& key)     {
             return true;
         }
     };
@@ -15,7 +15,7 @@ namespace filter {
         BloomFilter() = default;
         ~BloomFilter() = default;
 
-        bool is_contain(common::RawData& key) {
+        bool is_contain(common::RawData& key)     {
             return true;
         }
     };

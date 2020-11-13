@@ -2,12 +2,10 @@
 #include <vector>
 #include <assert.h>
 
-
 #include "common/def.h"
 #include "filter/filter.h"
 #include "util/file.h"
 #include "util/hash.h"
-
 
 using namespace std;
 
@@ -26,10 +24,8 @@ int main() {
 
   common::RawData data;
 
-
   cout << data.size << endl;
   cout << hasher.hash((Byte*)data.data, data.size) << endl;
 
   return 0;
-
 }
