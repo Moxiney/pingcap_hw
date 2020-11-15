@@ -1,3 +1,5 @@
+#pragma once
+
 #include "common/def.h"
 
 namespace filter {
@@ -6,17 +8,25 @@ namespace filter {
         Filter() = default;
         virtual ~Filter() = default;
 
-        virtual bool is_contain(common::RawData& key)     {
+        virtual bool operator()(const common::RawData& key) {
             return true;
         }
+
+
     };
 
     class BloomFilter : public Filter {
+    public:
         BloomFilter() = default;
         ~BloomFilter() = default;
 
-        bool is_contain(common::RawData& key)     {
+
+        bool operator()(const common::RawData& key) {
             return true;
         }
+    private:
+
+        // Byte array control by variable M
+
     };
 } // namespace filter

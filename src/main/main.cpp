@@ -11,6 +11,8 @@
 #include "util/file.h"
 #include "util/hash.h"
 #include "index/index.h"
+#include "filter/filter.h"
+#include "index/index_file.h"
 
 using namespace std;
 
@@ -52,6 +54,12 @@ int main() {
   cout << "hash() = " << hash_fn(*value) << endl;
   cout << "hash() = " << hash_fn(*key2) << endl;
   cout << "hash() = " << hash_fn(*(key2->next())) << endl;
+
+  filter::BloomFilter bf;
+  cout << "filter() = " << bf(*key) << endl;
+
+
+  hash_index::IndexFile index_file(0, 0);
 
   return 0;
 }
