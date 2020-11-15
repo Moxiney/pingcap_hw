@@ -53,4 +53,18 @@ namespace hash_index {
         index_files[p][s].insert(key, value);
     }
 
+    common::RawData* Index::find(common::RawData* key) {
+        auto p = data_hash(*key) % Config::num_partitions;
+        common::RawData* value = nullptr;
+
+        for (auto& idx_file : index_files[p]) {
+            value = idx_file.find(key);
+            if (value) {
+                return value;
+            }
+        }
+        return value;
+    }
+
+
 } // namespace hash_index

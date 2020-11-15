@@ -32,11 +32,11 @@ int main() {
 
   assert(addr != nullptr);
 
-  string test_strs[] = { "Hello", " ", "World", "!" };
+  vector<string> test_strs = { "Hello", " ", "World", "!" , "test1", "happy", "tree", "friend" };
 
   common::RawData* ptr = (common::RawData*)addr;
 
-  for (int i = 0; i < 4; i++) {
+  for (int i = 0; i < test_strs.size(); i++) {
     ptr->store(test_strs[i].c_str(), test_strs[i].size());
     ptr = ptr->next();
   }
@@ -45,10 +45,7 @@ int main() {
 
   // cout << (u64)ptr - (u64)addr << endl;
 
-  // auto key = (common::RawData*)addr;
-  // auto value = key->next();
-  // auto key2 = value->next();
-  // auto value2 = key2->next();
+
 
   // hash_index::DataEntry de;
   // de.init(key, value);
@@ -77,5 +74,17 @@ int main() {
   hash_index::Index idx(file_path);
   idx.build();
 
+
+  auto key = (common::RawData*)idx.addr();
+  auto value = key->next();
+  auto key2 = value->next();
+  auto value2 = key2->next();
+
+  assert(idx.find(key) == value);
+  assert(idx.find(key2) == value2);
+
+
+
+  util::mumap_and_close(fd, addr, file_size);
   return 0;
 }

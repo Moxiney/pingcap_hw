@@ -13,6 +13,12 @@
 #include "index/data_entry.h"
 #include "index/index_file.h"
 
+
+/**
+ * @brief Todo: 完成 find 函数
+ *
+ */
+
 namespace hash_index {
 
     void set_up();
@@ -25,7 +31,11 @@ namespace hash_index {
 
         bool build();
 
-        common::RawData* find(common::RawData& key, common::RawData* value);
+        common::RawData* find(common::RawData* key);
+
+        void* addr() {
+            return file_addr;
+        }
 
     private:
 

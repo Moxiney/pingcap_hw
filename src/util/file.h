@@ -8,6 +8,8 @@ namespace util {
 
     void* mmap_file(const char* file_path, int& fd, u64& file_size);
 
+    void mumap(void* addr, u64 size);
+
     void mumap_and_close(int fd, void* addr, u64 size);
 
 } // namespace util

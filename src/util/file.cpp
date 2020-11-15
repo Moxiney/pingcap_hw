@@ -35,6 +35,10 @@ namespace util {
         return addr;
     }
 
+    void mumap(void* addr, u64 size) {
+        munmap(addr, size);
+    }
+
     void mumap_and_close(int fd, void* addr, u64 size) {
         int res = munmap(addr, size);
         assert(res == 0);
