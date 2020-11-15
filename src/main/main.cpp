@@ -9,6 +9,7 @@
 #include "filter/filter.h"
 #include "util/file.h"
 #include "util/hash.h"
+#include "index/index.h"
 
 using namespace std;
 
@@ -28,19 +29,20 @@ int main() {
   common::RawData* ptr = (common::RawData*)addr;
 
   for (int i = 0; i < 4; i++) {
-
-    cout << test_strs[i] << " " << test_strs[i].size() << endl;
-
     ptr->store(test_strs[i].c_str(), test_strs[i].size());
-
-    auto next = ptr->next();
-
-    cout << "gap: " << next - ptr << endl;
-    ptr = next;
+    ptr = ptr->next();
   }
 
   cout << (u64)ptr - (u64)addr << endl;
 
+  auto key = (common::RawData*)addr;
+  auto value = key->next();
+
+  hash_index::DataEntry de;
+  de.init(key, value);
+
+  cout << de.match(key) << endl;
+  cout << de.inderict_match(key) << endl;
 
   return 0;
 }

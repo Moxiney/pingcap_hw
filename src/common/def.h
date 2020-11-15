@@ -18,22 +18,22 @@ using u64 = uint64_t;
 namespace common {
 
   struct RawData {
-    i32 size;
-    Byte data[];
+    i32 _size;
+    Byte _data[];
 
-    RawData() : size(0) {};
+    RawData() : _size(0) {};
 
     bool operator==(RawData& that) {
-      return memcmp(this, &that, sizeof(size) + size) == 0;
+      return memcmp(this, &that, sizeof(_size) + _size) == 0;
     }
 
-    void store(const Byte* _data, i32 _size) {
-      size = _size;
-      memcpy(data, _data, size);
+    void store(const Byte* data, i32 size) {
+      _size = size;
+      memcpy(_data, data, _size);
     }
 
     RawData* next() {
-      return reinterpret_cast<RawData*>((Byte*)this + sizeof(i32) + size);
+      return reinterpret_cast<RawData*>((Byte*)this + sizeof(i32) + _size);
     }
   };
 } // namespace common
