@@ -7,6 +7,7 @@
 
 
 #include "common/def.h"
+#include "common/config.h"
 #include "filter/filter.h"
 #include "util/file.h"
 #include "util/hash.h"
@@ -16,6 +17,7 @@
 
 using namespace std;
 
+
 int main() {
   const char file_path[] = "test_data";
 
@@ -23,7 +25,8 @@ int main() {
 
   assert(success);
 
-  void* addr = util::mmap_file(file_path);
+  int fd = 0;
+  void* addr = util::mmap_file(file_path, fd);
 
   assert(addr != nullptr);
 
@@ -40,6 +43,8 @@ int main() {
 
   auto key = (common::RawData*)addr;
   auto value = key->next();
+  auto key2 = value->next();
+  auto value2 = key2->next();
 
   hash_index::DataEntry de;
   de.init(key, value);
@@ -47,19 +52,27 @@ int main() {
   cout << de.match(key) << endl;
   cout << de.inderict_match(key) << endl;
 
-  auto key2 = value->next();
-
   std::hash<common::RawData> hash_fn;
   cout << "hash() = " << hash_fn(*key) << endl;
   cout << "hash() = " << hash_fn(*value) << endl;
   cout << "hash() = " << hash_fn(*key2) << endl;
-  cout << "hash() = " << hash_fn(*(key2->next())) << endl;
+  cout << "hash() = " << hash_fn(*value2) << endl;
 
   filter::BloomFilter bf;
   cout << "filter() = " << bf(*key) << endl;
 
 
-  hash_index::IndexFile index_file(0, 0);
+  hash_index::set_up();
+
+  hash_index::IndexFile file(0, 0);
+
+  file.insert(key, value);
+  file.insert(key2, value2);
+
+  assert(file.find(key) == value);
+  assert(file.find(key2) == value2);
+
+
 
   return 0;
 }

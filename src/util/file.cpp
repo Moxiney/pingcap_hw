@@ -4,19 +4,20 @@
 #include <sys/mman.h>
 #include <unistd.h>
 #include <iostream>
+#include <assert.h>
 
 #include "util/file.h"
 
 namespace util {
     bool create_file(const char* file_path, u64 file_size) {
         std::ofstream fout(file_path);
-        if (!fout)     {
+        if (!fout) {
             return false;
         }
         fout.close();
 
         int result = truncate(file_path, file_size);
-        if (result != 0)     {
+        if (result != 0) {
             return false;
         }
 
@@ -24,12 +25,19 @@ namespace util {
         return true;
     }
 
-    void* mmap_file(const char* file_path) {
-        int fd = open(file_path, O_RDWR);
+    void* mmap_file(const char* file_path, int& fd) {
+        fd = open(file_path, O_RDWR);
         struct stat sb;
 
         fstat(fd, &sb);
         void* addr = mmap(0, sb.st_size, (PROT_READ | PROT_WRITE), MAP_SHARED, fd, 0);
         return addr;
+    }
+
+    void mumap_and_close(int fd, void* addr, u64 size) {
+        int res = munmap(addr, size);
+        assert(res == 0);
+        res = close(fd);
+        assert(res == 0);
     }
 } // namespace util
