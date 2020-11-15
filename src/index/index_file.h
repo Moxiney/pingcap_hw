@@ -24,7 +24,8 @@ namespace hash_index {
             std::cout << "create index file " << file_path << std::endl;
 
             // Mmap file.
-            _entries = (DataEntry*)util::mmap_file(file_path, _fd);
+            u64 size;
+            _entries = (DataEntry*)util::mmap_file(file_path, _fd, size);
             assert(_entries != nullptr);
 
             _max = Config::index_file_size / sizeof(DataEntry);
@@ -35,11 +36,15 @@ namespace hash_index {
         };
 
         bool insert(common::RawData* key, common::RawData* value) {
-            if (_cur >= _max) {
+            if (full()) {
                 return false;
             }
             _entries[_cur++].init(key, value);
             return true;
+        }
+
+        bool full() {
+            return _cur >= _max;
         }
 
         common::RawData* find(common::RawData* key) {

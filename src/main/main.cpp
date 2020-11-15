@@ -20,13 +20,15 @@ using namespace std;
 
 int main() {
   const char file_path[] = "test_data";
+  hash_index::set_up();
 
   bool success = util::create_file(file_path, 1024);
 
   assert(success);
 
   int fd = 0;
-  void* addr = util::mmap_file(file_path, fd);
+  u64 file_size;
+  void* addr = util::mmap_file(file_path, fd, file_size);
 
   assert(addr != nullptr);
 
@@ -39,40 +41,41 @@ int main() {
     ptr = ptr->next();
   }
 
-  cout << (u64)ptr - (u64)addr << endl;
+  util::mumap_and_close(fd, addr, file_size);
 
-  auto key = (common::RawData*)addr;
-  auto value = key->next();
-  auto key2 = value->next();
-  auto value2 = key2->next();
+  // cout << (u64)ptr - (u64)addr << endl;
 
-  hash_index::DataEntry de;
-  de.init(key, value);
+  // auto key = (common::RawData*)addr;
+  // auto value = key->next();
+  // auto key2 = value->next();
+  // auto value2 = key2->next();
 
-  cout << de.match(key) << endl;
-  cout << de.inderict_match(key) << endl;
+  // hash_index::DataEntry de;
+  // de.init(key, value);
 
-  std::hash<common::RawData> hash_fn;
-  cout << "hash() = " << hash_fn(*key) << endl;
-  cout << "hash() = " << hash_fn(*value) << endl;
-  cout << "hash() = " << hash_fn(*key2) << endl;
-  cout << "hash() = " << hash_fn(*value2) << endl;
+  // cout << de.match(key) << endl;
+  // cout << de.inderict_match(key) << endl;
 
-  filter::BloomFilter bf;
-  cout << "filter() = " << bf(*key) << endl;
+  // std::hash<common::RawData> hash_fn;
+  // cout << "hash() = " << hash_fn(*key) << endl;
+  // cout << "hash() = " << hash_fn(*value) << endl;
+  // cout << "hash() = " << hash_fn(*key2) << endl;
+  // cout << "hash() = " << hash_fn(*value2) << endl;
 
-
-  hash_index::set_up();
-
-  hash_index::IndexFile file(0, 0);
-
-  file.insert(key, value);
-  file.insert(key2, value2);
-
-  assert(file.find(key) == value);
-  assert(file.find(key2) == value2);
+  // filter::BloomFilter bf;
+  // cout << "filter() = " << bf(*key) << endl;
 
 
+  // hash_index::IndexFile file(0, 0);
+
+  // file.insert(key, value);
+  // file.insert(key2, value2);
+
+  // assert(file.find(key) == value);
+  // assert(file.find(key2) == value2);
+
+  hash_index::Index idx(file_path);
+  idx.build();
 
   return 0;
 }

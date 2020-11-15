@@ -5,6 +5,7 @@
 #include <string.h>
 #include <algorithm>
 #include <assert.h>
+#include <functional>
 
 #include "common/def.h"
 #include "common/config.h"
@@ -14,49 +15,27 @@
 
 namespace hash_index {
 
-    void set_up() {
-        std::string folder_path = "data";
-
-        std::string command = "mkdir -p " + folder_path;
-        system(command.c_str());
-
-        for (int i = 0; i < Config::num_partitions; i++) {
-            std::string s = command + "/" + "p_" + std::to_string(i);
-            system(s.c_str());
-        }
-    }
-
-    void tear_down() {
-        system("rm -rf data/");
-    }
+    void set_up();
+    void tear_down();
 
     class Index {
     public:
-        Index(const char file_path) {
-            // create and map file.
-
-
-            index_files.resize(Config::num_partitions);
-        };
+        Index(const char* file_path);
         ~Index() = default;
 
-        bool build(const char* file_path) {
-            bool result = true;
-
-            // open file
-            void* addr = util::mmap_file(file_path, _fd);
-
-            // for all kv pair, build index.
-
-
-            return result;
-        }
+        bool build();
 
         common::RawData* find(common::RawData& key, common::RawData* value);
 
     private:
+
+        void insert(common::RawData* key, common::RawData* value);
+
         int _fd;
         void* file_addr;
+        u64 _file_size;
+
+        std::hash<common::RawData> data_hash;
 
         std::vector<std::vector<IndexFile>> index_files;
     };

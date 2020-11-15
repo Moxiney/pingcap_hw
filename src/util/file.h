@@ -6,7 +6,7 @@ namespace util {
 
     bool create_file(const char* file_path, u64 file_size);
 
-    void* mmap_file(const char* file_path, int& fd);
+    void* mmap_file(const char* file_path, int& fd, u64& file_size);
 
     void mumap_and_close(int fd, void* addr, u64 size);
 

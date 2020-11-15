@@ -25,12 +25,13 @@ namespace util {
         return true;
     }
 
-    void* mmap_file(const char* file_path, int& fd) {
+    void* mmap_file(const char* file_path, int& fd, u64& file_size) {
         fd = open(file_path, O_RDWR);
         struct stat sb;
 
         fstat(fd, &sb);
-        void* addr = mmap(0, sb.st_size, (PROT_READ | PROT_WRITE), MAP_SHARED, fd, 0);
+        file_size = sb.st_size;
+        void* addr = mmap(0, file_size, (PROT_READ | PROT_WRITE), MAP_SHARED, fd, 0);
         return addr;
     }
 
