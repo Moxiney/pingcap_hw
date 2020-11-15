@@ -3,6 +3,7 @@
 #include <assert.h>
 #include <string.h>
 #include <string>
+#include <functional>
 
 
 #include "common/def.h"
@@ -43,6 +44,14 @@ int main() {
 
   cout << de.match(key) << endl;
   cout << de.inderict_match(key) << endl;
+
+  auto key2 = value->next();
+
+  std::hash<common::RawData> hash_fn;
+  cout << "hash() = " << hash_fn(*key) << endl;
+  cout << "hash() = " << hash_fn(*value) << endl;
+  cout << "hash() = " << hash_fn(*key2) << endl;
+  cout << "hash() = " << hash_fn(*(key2->next())) << endl;
 
   return 0;
 }
