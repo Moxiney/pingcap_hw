@@ -85,6 +85,21 @@ int main() {
 
 
 
+  hash<common::RawData> hash_fn;
+
+  cout << "hash() = " << hash_fn(*key) << endl;
+  cout << "hash() = " << hash_fn(*key, 0) << endl;
+  cout << "hash() = " << hash_fn(*key, 1) << endl;
+
+  filter::BloomFilter bloom_filter;
+
+  bloom_filter.insert(key);
+  cout << bloom_filter(*key) << endl;
+  cout << bloom_filter(*value) << endl;
+  cout << bloom_filter(*value2) << endl;
+
+
   util::mumap_and_close(fd, addr, file_size);
+
   return 0;
 }

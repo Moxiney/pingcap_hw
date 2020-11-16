@@ -53,7 +53,9 @@ namespace hash_index {
                 return nullptr;
             }
             for (u32 i = 0; i < _cur; i++) {
-                if (_entries[i].match(key) != MatchResult::UNMATCHED && _entries[i].inderict_match(key) == MatchResult::MATCHED) {
+                auto res = _entries[i].match(key);
+
+                if (res == MatchResult::MATCHED || (res == MatchResult::PARTCIALMACHED && _entries[i].inderict_match(key) == MatchResult::MATCHED)) {
                     return _entries[i].get_value();
                 }
             }

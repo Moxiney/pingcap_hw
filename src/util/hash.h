@@ -12,6 +12,13 @@ namespace std {
             std::string s(data._data, data._size);
             return std::hash<std::string>()(s);
         }
+
+        size_t operator()(const common::RawData& data, i32 n) {
+            std::string s(data._data, data._size);
+            s += std::to_string(n);
+            return std::hash<std::string>()(s);
+
+        }
     };
 } // namespace std
 
