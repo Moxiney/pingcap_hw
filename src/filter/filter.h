@@ -1,3 +1,15 @@
+/**
+ * @file filter.h
+ * @author your name (you@domain.com)
+ * @brief
+ * @version 0.1
+ * @date 2020-11-17
+ *
+ * @copyright Copyright (c) 2020
+ *
+ * 定义了 Filter 数据结构，用于判断一个 RawData 是否存在。
+ *
+ */
 #pragma once
 
 #include "common/def.h"
@@ -20,6 +32,10 @@ namespace filter {
 
     };
 
+    /**
+     * @brief BloomFilter 用于判断一个 Key 是否存在。
+     *
+     */
     class BloomFilter : public Filter {
     public:
         BloomFilter() {
@@ -27,7 +43,13 @@ namespace filter {
         };
         ~BloomFilter() = default;
 
-
+        /**
+         * @brief 判断一个 key 是否存在，有可能假阳性
+         *
+         * @param key
+         * @return true
+         * @return false
+         */
         bool operator()(const common::RawData& key) {
             std::hash<common::RawData> hash_fn;
             for (int i = 0; i < NUM_HASH;i++) {
@@ -42,6 +64,13 @@ namespace filter {
             return true;
         }
 
+        /**
+         * @brief 插入一个新的 key，会根据 key 的哈希值更新内部的 bit array。
+         *
+         * @param key
+         * @return true
+         * @return false
+         */
         bool insert(common::RawData* key) {
             // generate k hash value.
             std::hash<common::RawData> hash_fn;

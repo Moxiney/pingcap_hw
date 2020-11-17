@@ -1,3 +1,15 @@
+/**
+ * @file hash.h
+ * @author your name (you@domain.com)
+ * @brief
+ * @version 0.1
+ * @date 2020-11-17
+ *
+ * @copyright Copyright (c) 2020
+ *
+ * 哈希函数的辅助函数。
+ *
+ */
 #pragma once
 
 #include <functional>

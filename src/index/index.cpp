@@ -46,7 +46,7 @@ namespace hash_index {
         auto p = data_hash(*key) % Config::num_partitions;
         i32 s = index_files[p].size() - 1;
         // find index_file
-        if (s < 0 || index_files[p][s].full()) {
+        if (s < 0 || index_files[p][s].full()) { // 如果对应的 index file 满了，或者不存在，则创建一个新的 index file。
             s++;
             index_files[p].emplace_back(p, s);
         }
@@ -57,7 +57,7 @@ namespace hash_index {
         auto p = data_hash(*key) % Config::num_partitions;
         common::RawData* value = nullptr;
 
-        for (auto& idx_file : index_files[p]) {
+        for (auto& idx_file : index_files[p]) { // 对于该分区的所有 index files，遍历查找。
             value = idx_file.find(key);
             if (value) {
                 return value;

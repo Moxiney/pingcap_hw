@@ -19,6 +19,7 @@ using namespace std;
 
 
 int main() {
+  // 1. 创建测试文件
   const char file_path[] = "test_data";
   hash_index::set_up();
 
@@ -29,9 +30,10 @@ int main() {
   int fd = 0;
   u64 file_size;
   void* addr = util::mmap_file(file_path, fd, file_size);
-
   assert(addr != nullptr);
 
+
+  // 2. 插入测试数据
   vector<string> test_strs = { "Hello", " ", "World", "!" , "test1", "happy", "tree", "friend" };
 
   common::RawData* ptr = (common::RawData*)addr;
@@ -40,40 +42,11 @@ int main() {
     ptr->store(test_strs[i].c_str(), test_strs[i].size());
     ptr = ptr->next();
   }
-
   util::mumap_and_close(fd, addr, file_size);
 
-  // cout << (u64)ptr - (u64)addr << endl;
-
-
-
-  // hash_index::DataEntry de;
-  // de.init(key, value);
-
-  // cout << de.match(key) << endl;
-  // cout << de.inderict_match(key) << endl;
-
-  // std::hash<common::RawData> hash_fn;
-  // cout << "hash() = " << hash_fn(*key) << endl;
-  // cout << "hash() = " << hash_fn(*value) << endl;
-  // cout << "hash() = " << hash_fn(*key2) << endl;
-  // cout << "hash() = " << hash_fn(*value2) << endl;
-
-  // filter::BloomFilter bf;
-  // cout << "filter() = " << bf(*key) << endl;
-
-
-  // hash_index::IndexFile file(0, 0);
-
-  // file.insert(key, value);
-  // file.insert(key2, value2);
-
-  // assert(file.find(key) == value);
-  // assert(file.find(key2) == value2);
-
+  // 3. 建立索引
   hash_index::Index idx(file_path);
   idx.build();
-
 
   auto key = (common::RawData*)idx.addr();
   auto value = key->next();
@@ -82,21 +55,6 @@ int main() {
 
   assert(idx.find(key) == value);
   assert(idx.find(key2) == value2);
-
-
-
-  hash<common::RawData> hash_fn;
-
-  cout << "hash() = " << hash_fn(*key) << endl;
-  cout << "hash() = " << hash_fn(*key, 0) << endl;
-  cout << "hash() = " << hash_fn(*key, 1) << endl;
-
-  filter::BloomFilter bloom_filter;
-
-  bloom_filter.insert(key);
-  cout << bloom_filter(*key) << endl;
-  cout << bloom_filter(*value) << endl;
-  cout << bloom_filter(*value2) << endl;
 
 
   util::mumap_and_close(fd, addr, file_size);

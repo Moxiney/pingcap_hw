@@ -1,3 +1,15 @@
+/**
+ * @file file.h
+ * @author your name (you@domain.com)
+ * @brief
+ * @version 0.1
+ * @date 2020-11-17
+ *
+ * @copyright Copyright (c) 2020
+ *
+ * 一些文件的辅助函数。
+ *
+ */
 #pragma once
 
 #include "common/def.h"
